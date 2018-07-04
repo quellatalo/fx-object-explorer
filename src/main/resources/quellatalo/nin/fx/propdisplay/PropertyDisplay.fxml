@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="BASELINE_LEFT" type="HBox"
+         xmlns="http://javafx.com/javafx/8.0.121">
+    <Label fx:id="lblName">
+        <font>
+            <Font name="System Bold" size="12.0"/>
+        </font>
+    </Label>
+</fx:root>

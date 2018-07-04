@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+<?import quellatalo.nin.fx.AddressBar?>
+<?import quellatalo.nin.fx.TableViewX?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" hgap="5" type="GridPane" vgap="5" xmlns="http://javafx.com/javafx/8.0.121">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="Infinity" minWidth="400.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints minHeight="0" maxHeight="Infinity"/>
+        <RowConstraints minHeight="0" maxHeight="Infinity" vgrow="ALWAYS"/>
+    </rowConstraints>
+    <AddressBar fx:id="abPath"/>
+    <ScrollPane GridPane.rowIndex="1">
+        <VBox fx:id="vbProperties"/>
+        <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+        </padding>
+    </ScrollPane>
+    <TableViewX fx:id="tvChildren" rowCounting="true" stringAndPrimitivesOnly="false" GridPane.rowIndex="2"/>
+    <padding>
+        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+    </padding>
+</fx:root>
