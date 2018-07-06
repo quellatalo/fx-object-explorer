@@ -1,5 +1,6 @@
 package quellatalo.nin.fx;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -8,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -29,9 +32,13 @@ public class ObjectExplorer<T> extends GridPane {
     @FXML
     private AddressBar<T> abPath;
     @FXML
+    private ScrollPane propertiesPane;
+    @FXML
     private VBox vbProperties;
     @FXML
     private TableViewX<T> tvChildren;
+    @FXML
+    private SplitPane splitPane;
     private T root;
     private ObjectDisplay<T> current;
     private ObjectProperty<TitleStyle> titleStyle;
@@ -91,7 +98,8 @@ public class ObjectExplorer<T> extends GridPane {
         this.root = root;
         abPath.clear();
         ObjectDisplay<T> d = new ObjectDisplay<>();
-        d.setText(root.toString());
+        if (root instanceof Map || root instanceof Collection) d.setText(root.getClass().getSimpleName());
+        else d.setText(root.toString());
         d.setActionConsumer(setActiveItem);
         d.setValue(root);
         setCurrent(d);
@@ -134,6 +142,14 @@ public class ObjectExplorer<T> extends GridPane {
             }
         }
         vbProperties.requestFocus();
+        layout();
+        Platform.runLater(() -> {
+            propertiesPane.setMaxHeight(vbProperties.getHeight() + propertiesPane.getPadding().getTop() + propertiesPane.getPadding().getBottom() + 20);
+            if (propertiesPane.getMaxHeight() > propertiesPane.getHeight()) {
+                double d = splitPane.getHeight() / propertiesPane.getMaxHeight();
+                splitPane.setDividerPositions(d > 2 ? d : 0.5);
+            }
+        });
     }
 
     public ObjectDisplay<T> getCurrent() {

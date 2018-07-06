@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.*?>
 <?import quellatalo.nin.fx.AddressBar?>
 <?import quellatalo.nin.fx.TableViewX?>
@@ -11,18 +12,19 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints/>
-        <RowConstraints minHeight="0" maxHeight="Infinity"/>
         <RowConstraints minHeight="0" maxHeight="Infinity" vgrow="ALWAYS"/>
     </rowConstraints>
     <AddressBar fx:id="abPath"/>
-    <ScrollPane GridPane.rowIndex="1">
-        <VBox fx:id="vbProperties"/>
-        <padding>
-            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
-        </padding>
-    </ScrollPane>
-    <TableViewX fx:id="tvChildren" rowCounting="true" stringAndPrimitivesOnly="false" GridPane.rowIndex="2"
-                rightClickFilter="true"/>
+    <SplitPane fx:id="splitPane" GridPane.rowIndex="1" orientation="VERTICAL">
+        <ScrollPane fx:id="propertiesPane">
+            <VBox fx:id="vbProperties" spacing="5"/>
+            <padding>
+                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+            </padding>
+        </ScrollPane>
+        <TableViewX fx:id="tvChildren" rowCounting="true" stringAndPrimitivesOnly="false"
+                    rightClickFilter="true"/>
+    </SplitPane>
     <padding>
         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
     </padding>
