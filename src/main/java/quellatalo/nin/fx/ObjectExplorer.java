@@ -99,9 +99,9 @@ public class ObjectExplorer<T> extends GridPane {
 
     public void load() {
         if (current.getValue() instanceof Map) {
-            tvChildren.setContent(new ArrayList<T>(((Map<?, T>) current.getValue()).values()));
+            tvChildren.setContent(new ArrayList<>(((Map<?, T>) current.getValue()).values()));
         } else if (current.getValue() instanceof Collection) {
-            tvChildren.setContent(new ArrayList<T>((Collection<T>) current.getValue()));
+            tvChildren.setContent(new ArrayList<>((Collection<T>) current.getValue()));
         } else {
             tvChildren.setContent(null);
         }
