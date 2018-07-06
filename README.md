@@ -3,8 +3,9 @@ A javafx control for browsing object structure and data
 ###Dependencies
 * https://github.com/quellatalo/table_view_x
 
-###Sample Code
-#####Sample Class
+### Sample Code
+
+#### Sample Class
 ```java
 public class YourClass {
     private final int id;
@@ -31,7 +32,7 @@ public class YourClass {
 }
 ```
 
-#####Sample Application
+### Sample Application
 ```Java
 public class Test extends Application {
     private final String ID = "id";
