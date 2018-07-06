@@ -32,7 +32,7 @@ public class YourClass {
 }
 ```
 
-### Sample Application
+#### Sample Application
 ```Java
 public class Test extends Application {
     private final String ID = "id";
