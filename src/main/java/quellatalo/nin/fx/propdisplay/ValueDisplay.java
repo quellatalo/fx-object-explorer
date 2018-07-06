@@ -14,7 +14,8 @@ public class ValueDisplay<T> extends PropertyDisplay<T> {
 
     @Override
     public void setValue(T value) {
-        lblValue.setText(value.toString());
+        if (value != null)
+            lblValue.setText(value.toString());
     }
 
     @Override

@@ -8,18 +8,11 @@
     <artifactId>fx-object-explorer</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
-            <groupId>com.github.quellatalo</groupId>
+            <groupId>quellatalo.nin.fx</groupId>
             <artifactId>table_view_x</artifactId>
-            <version>1.4</version>
+            <version>1.5</version>
         </dependency>
     </dependencies>
 
