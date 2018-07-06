@@ -10,7 +10,6 @@ public class SimpleBrowser extends Stage {
         objectExplorer = new ObjectExplorer<>(object);
         objectExplorer.setRoot(object);
         setScene(new Scene(objectExplorer));
-        show();
     }
 
     public Object getObject() {
