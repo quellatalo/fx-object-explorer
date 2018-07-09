@@ -4,6 +4,7 @@ public class YourClass {
     private final int id;
     private final String name;
     private final LocalDateTime localDateTime;
+    private String[] args = {"a", "b", "c"};
 
     public YourClass(int id, String name, LocalDateTime localDateTime) {
         this.id = id;
@@ -21,5 +22,9 @@ public class YourClass {
 
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
+    }
+
+    public String[] getArgs() {
+        return args;
     }
 }

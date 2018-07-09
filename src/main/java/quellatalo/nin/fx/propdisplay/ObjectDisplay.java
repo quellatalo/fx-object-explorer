@@ -37,7 +37,7 @@ public class ObjectDisplay<T> extends PropertyDisplay<T> {
         this.value = value;
         if (value == null) {
             hplValue.setText("NULL");
-        } else if (!(value instanceof Map || value instanceof Collection)) {
+        } else if (!(value instanceof Map || value instanceof Collection || value.getClass().isArray())) {
             hplValue.setText(value.toString());
         }
     }

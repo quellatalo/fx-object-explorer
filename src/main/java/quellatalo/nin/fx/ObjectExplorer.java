@@ -19,12 +19,10 @@ import quellatalo.nin.fx.propdisplay.PropertyDisplay;
 import quellatalo.nin.fx.propdisplay.ValueDisplay;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class ObjectExplorer<T> extends GridPane {
@@ -46,6 +44,7 @@ public class ObjectExplorer<T> extends GridPane {
     private BooleanProperty displayHashCode;
     private DoubleProperty labelPrefWidth;
     private Consumer<ObjectDisplay<T>> setActiveItem;
+    private Runnable onLoad;
 
     public ObjectExplorer() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(getClass().getSimpleName() + ".fxml"));
@@ -69,7 +68,7 @@ public class ObjectExplorer<T> extends GridPane {
                 oldEv.handle(event);
             }
         });
-        tvChildren.setOnKeyReleased(event -> {
+        tvChildren.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) selectTableView();
         });
     }
@@ -98,7 +97,8 @@ public class ObjectExplorer<T> extends GridPane {
         this.root = root;
         abPath.clear();
         ObjectDisplay<T> d = new ObjectDisplay<>();
-        if (root instanceof Map || root instanceof Collection) d.setText(root.getClass().getSimpleName());
+        if (root instanceof Map || root instanceof Collection || root.getClass().isArray())
+            d.setText(root.getClass().getSimpleName());
         else d.setText(root.toString());
         d.setActionConsumer(setActiveItem);
         d.setValue(root);
@@ -110,6 +110,12 @@ public class ObjectExplorer<T> extends GridPane {
             tvChildren.setContent(new ArrayList<>(((Map<?, T>) current.getValue()).values()));
         } else if (current.getValue() instanceof Collection) {
             tvChildren.setContent(new ArrayList<>((Collection<T>) current.getValue()));
+        } else if (current.getValue().getClass().isArray()) {
+            Object[] arr = new Object[Array.getLength(current.getValue())];
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = Array.get(current.getValue(), i);
+            }
+            tvChildren.setContent(new ArrayList((Arrays.asList(arr))));
         } else {
             tvChildren.setContent(null);
         }
@@ -117,7 +123,6 @@ public class ObjectExplorer<T> extends GridPane {
         Class c = current.getValue().getClass();
         Map<String, Method> getters = ClassUtils.getGetters(c);
         List<String> keys = new ArrayList<>(getters.keySet());
-        keys.sort(String::compareTo);
         for (String key : keys) {
             Class<?> propType = getters.get(key).getReturnType();
             if (key.equals("hashCode") && !displayHashCode.get()) continue;
@@ -150,6 +155,7 @@ public class ObjectExplorer<T> extends GridPane {
                 splitPane.setDividerPositions(d > 2 ? d : 0.5);
             }
         });
+        if (onLoad != null) onLoad.run();
     }
 
     public ObjectDisplay<T> getCurrent() {
@@ -190,5 +196,13 @@ public class ObjectExplorer<T> extends GridPane {
 
     public TableViewX<T> getTvChildren() {
         return tvChildren;
+    }
+
+    public Runnable getOnLoad() {
+        return onLoad;
+    }
+
+    public void setOnLoad(Runnable onLoad) {
+        this.onLoad = onLoad;
     }
 }
