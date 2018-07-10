@@ -1,6 +1,7 @@
 package quellatalo.nin.fx;
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class SimpleBrowser<T> extends Stage {
@@ -9,6 +10,11 @@ public class SimpleBrowser<T> extends Stage {
     public SimpleBrowser(T object) {
         objectExplorer = new ObjectExplorer<>(object);
         objectExplorer.setRoot(object);
+        objectExplorer.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.F3) {
+                objectExplorer.getTvChildren().openFilter();
+            }
+        });
         setScene(new Scene(objectExplorer));
     }
 

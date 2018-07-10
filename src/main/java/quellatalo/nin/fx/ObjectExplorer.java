@@ -5,7 +5,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -60,12 +59,9 @@ public class ObjectExplorer<T> extends GridPane {
         displayHashCode = tvChildren.displayHashCodeProperty();
         labelPrefWidth = new SimpleDoubleProperty(this, "LabelWidth", -1);
         setActiveItem = this::setCurrent;
-        EventHandler oldEv = tvChildren.getOnMouseClicked();
         tvChildren.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 selectTableView();
-            } else {
-                oldEv.handle(event);
             }
         });
         tvChildren.setOnKeyPressed(event -> {

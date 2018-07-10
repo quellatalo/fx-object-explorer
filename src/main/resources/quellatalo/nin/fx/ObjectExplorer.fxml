@@ -22,8 +22,7 @@
                 <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
             </padding>
         </ScrollPane>
-        <TableViewX fx:id="tvChildren" rowCounting="true" stringAndPrimitivesOnly="false"
-                    rightClickFilter="true"/>
+        <TableViewX fx:id="tvChildren" rowCounting="true" stringAndPrimitivesOnly="false"/>
     </SplitPane>
     <padding>
         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
