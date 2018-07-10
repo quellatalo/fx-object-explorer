@@ -1,5 +1,6 @@
 # fx-object-explorer
 A javafx control for browsing object structure and data
+
 ###Dependencies
 * https://github.com/quellatalo/table_view_x
 
