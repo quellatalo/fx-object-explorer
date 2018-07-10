@@ -6,7 +6,7 @@
 
     <groupId>quellatalo.nin.fx</groupId>
     <artifactId>fx-object-explorer</artifactId>
-    <version>1.0</version>
+    <version>1.0.0.1</version>
     <repositories>
         <repository>
             <id>jitpack.io</id>
