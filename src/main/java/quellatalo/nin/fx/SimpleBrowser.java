@@ -10,12 +10,13 @@ public class SimpleBrowser<T> extends Stage {
     public SimpleBrowser(T object) {
         objectExplorer = new ObjectExplorer<>(object);
         objectExplorer.setRoot(object);
-        objectExplorer.setOnKeyPressed(event -> {
+        Scene scene = new Scene(objectExplorer);
+        scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.F3) {
                 objectExplorer.getTvChildren().openFilter();
             }
         });
-        setScene(new Scene(objectExplorer));
+        setScene(scene);
     }
 
     public T getObject() {

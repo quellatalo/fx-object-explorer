@@ -6,7 +6,7 @@
 
     <groupId>quellatalo.nin.fx</groupId>
     <artifactId>fx-object-explorer</artifactId>
-    <version>1.0.0.1</version>
+    <version>1.0.1</version>
     <repositories>
         <repository>
             <id>jitpack.io</id>
@@ -15,10 +15,15 @@
         </repository>
     </repositories>
     <dependencies>
+        <!--<dependency>-->
+        <!--<groupId>com.github.quellatalo</groupId>-->
+        <!--<artifactId>table_view_x</artifactId>-->
+        <!--<version>1.6</version>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>com.github.quellatalo</groupId>
+            <groupId>quellatalo.nin.fx</groupId>
             <artifactId>table_view_x</artifactId>
-            <version>1.6</version>
+            <version>1.6.1</version>
         </dependency>
     </dependencies>
 
