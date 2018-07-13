@@ -21,7 +21,10 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ObjectExplorer<T> extends GridPane {
@@ -107,11 +110,12 @@ public class ObjectExplorer<T> extends GridPane {
         } else if (current.getValue() instanceof Collection) {
             tvChildren.setContent(new ArrayList<>((Collection<T>) current.getValue()));
         } else if (current.getValue().getClass().isArray()) {
-            Object[] arr = new Object[Array.getLength(current.getValue())];
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = Array.get(current.getValue(), i);
+            List<T> list = new ArrayList<>();
+            int len = Array.getLength(current.getValue());
+            for (int i = 0; i < len; i++) {
+                list.add((T) Array.get(current.getValue(), i));
             }
-            tvChildren.setContent(new ArrayList((Arrays.asList(arr))));
+            tvChildren.setContent(list);
         } else {
             tvChildren.setContent(null);
         }
