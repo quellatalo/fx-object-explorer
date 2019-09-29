@@ -1,5 +1,10 @@
-package quellatalo.nin.fx;
+package io.github.quellatalo.fx.explr;
 
+import io.github.quellatalo.fx.explr.propdisplay.PropertyDisplay;
+import io.github.quellatalo.fx.explr.propdisplay.ValueDisplay;
+import io.github.quellatalo.fx.tvx.TableViewX;
+import io.github.quellatalo.fx.tvx.TitleStyle;
+import io.github.quellatalo.reflection.ClassUtils;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -13,9 +18,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import quellatalo.nin.fx.propdisplay.ObjectDisplay;
-import quellatalo.nin.fx.propdisplay.PropertyDisplay;
-import quellatalo.nin.fx.propdisplay.ValueDisplay;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -26,8 +28,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import io.github.quellatalo.fx.explr.propdisplay.ObjectDisplay;
 
-public class ObjectExplorer<T> extends GridPane {
+public class ObjExplorer<T> extends GridPane {
     private static final Alert alert = new Alert(Alert.AlertType.INFORMATION, "NULL");
     @FXML
     private AddressBar<T> abPath;
@@ -48,7 +51,7 @@ public class ObjectExplorer<T> extends GridPane {
     private Consumer<ObjectDisplay<T>> setActiveItem;
     private Runnable onLoad;
 
-    public ObjectExplorer() {
+    public ObjExplorer() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(getClass().getSimpleName() + ".fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -72,7 +75,7 @@ public class ObjectExplorer<T> extends GridPane {
         });
     }
 
-    public ObjectExplorer(T root) {
+    public ObjExplorer(T root) {
         this();
         setRoot(root);
     }

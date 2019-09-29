@@ -1,4 +1,4 @@
-package quellatalo.nin.fx.propdisplay;
+package io.github.quellatalo.fx.explr.propdisplay;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;

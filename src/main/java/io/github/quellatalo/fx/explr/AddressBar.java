@@ -1,8 +1,8 @@
-package quellatalo.nin.fx;
+package io.github.quellatalo.fx.explr;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
-import quellatalo.nin.fx.propdisplay.ObjectDisplay;
+import io.github.quellatalo.fx.explr.propdisplay.ObjectDisplay;
 
 import java.io.IOException;
 import java.util.ArrayList;
