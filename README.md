@@ -1,9 +1,15 @@
 # fx-object-explorer
 A javafx control for browsing object structure and data
 
-### Dependencies
-* https://github.com/quellatalo/table_view_x
-
+### Usage
+##### Maven
+```xml
+<dependency>
+    <groupId>io.github.quellatalo.fx</groupId>
+    <artifactId>object-explorer</artifactId>
+    <version>1.0.4</version>
+</dependency>
+```
 ### Sample Code
 
 #### Sample Class
@@ -46,7 +52,7 @@ public class Test extends Application {
             yourClasses.add(new YourClass(i, "your name " + i, LocalDateTime.now().minusHours(i)));
         }
         // create the explorer
-        ObjectExplorer<List<YourClass>> explorer = new ObjectExplorer<>(yourClasses);
+        ObjExplorer<List<YourClass>> explorer = new ObjExplorer<>(yourClasses);
         // or you can use default constructor and explorer.setRoot(yourClasses);
         
         // add to scene and stage
