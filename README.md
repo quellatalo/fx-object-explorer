@@ -7,7 +7,7 @@ A javafx control for browsing object structure and data
 <dependency>
     <groupId>io.github.quellatalo.fx</groupId>
     <artifactId>object-explorer</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.4.1</version>
 </dependency>
 ```
 ### Sample Code
