@@ -185,6 +185,22 @@ public class ObjExplorer<T> extends GridPane {
         this.titleStyle.set(titleStyle);
     }
 
+    public boolean isDisplayClass() {
+        return displayClass.get();
+    }
+
+    public void setDisplayClass(boolean displayClass) {
+        this.displayClass.set(displayClass);
+    }
+
+    public boolean isDisplayHashCode() {
+        return displayHashCode.get();
+    }
+
+    public void setDisplayHashCode(boolean displayHashCode) {
+        this.displayHashCode.set(displayHashCode);
+    }
+
     public double getLabelPrefWidth() {
         return labelPrefWidth.get();
     }
