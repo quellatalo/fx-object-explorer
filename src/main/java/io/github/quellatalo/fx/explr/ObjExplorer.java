@@ -1,5 +1,6 @@
 package io.github.quellatalo.fx.explr;
 
+import io.github.quellatalo.fx.explr.propdisplay.ObjectDisplay;
 import io.github.quellatalo.fx.explr.propdisplay.PropertyDisplay;
 import io.github.quellatalo.fx.explr.propdisplay.ValueDisplay;
 import io.github.quellatalo.fx.tvx.TableViewX;
@@ -23,32 +24,32 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import io.github.quellatalo.fx.explr.propdisplay.ObjectDisplay;
 
-public class ObjExplorer<T> extends GridPane {
+public class ObjExplorer extends GridPane {
     private static final Alert alert = new Alert(Alert.AlertType.INFORMATION, "NULL");
     @FXML
-    private AddressBar<T> abPath;
+    private AddressBar abPath;
     @FXML
     private ScrollPane propertiesPane;
     @FXML
     private VBox vbProperties;
     @FXML
-    private TableViewX<T> tvChildren;
+    private TableViewX tvChildren;
     @FXML
     private SplitPane splitPane;
-    private T root;
-    private ObjectDisplay<T> current;
+    private Object root;
+    private ObjectDisplay current;
     private ObjectProperty<TitleStyle> titleStyle;
     private BooleanProperty displayClass;
     private BooleanProperty displayHashCode;
     private DoubleProperty labelPrefWidth;
-    private Consumer<ObjectDisplay<T>> setActiveItem;
+    private Consumer<ObjectDisplay> setActiveItem;
     private Runnable onLoad;
 
     public ObjExplorer() {
@@ -75,15 +76,19 @@ public class ObjExplorer<T> extends GridPane {
         });
     }
 
-    public ObjExplorer(T root) {
+    public ObjExplorer(Object root, Class<?> typeArgument) {
         this();
-        setRoot(root);
+        setRoot(root, typeArgument);
+    }
+
+    public ObjExplorer(Object root) {
+        this(root, null);
     }
 
     private void selectTableView() {
-        T selectedItem = (T) tvChildren.getSelectionModel().getSelectedItem();
+        Object selectedItem = tvChildren.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            ObjectDisplay<T> d = new ObjectDisplay<>();
+            ObjectDisplay d = new ObjectDisplay();
             d.setText(selectedItem.toString());
             d.setActionConsumer(setActiveItem);
             d.setValue(selectedItem);
@@ -91,39 +96,46 @@ public class ObjExplorer<T> extends GridPane {
         }
     }
 
-    public T getRoot() {
+    public Object getRoot() {
         return root;
     }
 
-    public void setRoot(T root) {
+    public void setRoot(Object root) {
+        setRoot(root, null);
+    }
+
+    public void setRoot(Object root, Class<?> typeArgument) {
         this.root = root;
         abPath.clear();
-        ObjectDisplay<T> d = new ObjectDisplay<>();
+        ObjectDisplay d = new ObjectDisplay();
         if (root instanceof Map || root instanceof Collection || root.getClass().isArray())
             d.setText(root.getClass().getSimpleName());
         else d.setText(root.toString());
         d.setActionConsumer(setActiveItem);
         d.setValue(root);
+        d.setTypeArgument(typeArgument);
         setCurrent(d);
     }
 
     public void load() {
-        if (current.getValue() instanceof Map) {
-            tvChildren.setContent(new ArrayList<>(((Map<?, T>) current.getValue()).values()));
-        } else if (current.getValue() instanceof Collection) {
-            tvChildren.setContent(new ArrayList<>((Collection<T>) current.getValue()));
-        } else if (current.getValue().getClass().isArray()) {
-            List<T> list = new ArrayList<>();
-            int len = Array.getLength(current.getValue());
+        var v = current.getValue();
+        if (v instanceof Map) {
+            tvChildren.setContent(new ArrayList(((Map) v).values()), current.getTypeArgument());
+        } else if (v instanceof Collection) {
+            tvChildren.setContent(new ArrayList((Collection) v), current.getTypeArgument());
+        } else if (v.getClass().isArray()) {
+//            List list = Arrays.asList(v);
+            List list = new ArrayList();
+            int len = Array.getLength(v);
             for (int i = 0; i < len; i++) {
-                list.add((T) Array.get(current.getValue(), i));
+                list.add(Array.get(v, i));
             }
-            tvChildren.setContent(list);
+            tvChildren.setContent(list, current.getTypeArgument());
         } else {
             tvChildren.setContent(null);
         }
         vbProperties.getChildren().clear();
-        Class c = current.getValue().getClass();
+        Class c = v.getClass();
         Map<String, Method> getters = ClassUtils.getGetters(c);
         List<String> keys = new ArrayList<>(getters.keySet());
         for (String key : keys) {
@@ -131,19 +143,25 @@ public class ObjExplorer<T> extends GridPane {
             if (key.equals("hashCode") && !displayHashCode.get()) continue;
             if (key.equals("Class") && !displayClass.get()) continue;
             String displayLabel = TitleStyle.transform(key, titleStyle.get());
-            PropertyDisplay<T> propertyDisplay;
+            PropertyDisplay propertyDisplay;
             if (propType.isPrimitive() || propType == String.class) {
-                propertyDisplay = new ValueDisplay<>();
+                propertyDisplay = new ValueDisplay();
             } else {
-                ObjectDisplay<T> od = new ObjectDisplay<>();
+                ObjectDisplay od = new ObjectDisplay();
                 od.setActionConsumer(setActiveItem);
                 od.setText(key);
                 propertyDisplay = od;
+                try {
+                    ParameterizedType parameterizedType = (ParameterizedType) getters.get(key).getGenericReturnType();
+                    od.setTypeArgument((Class<?>) parameterizedType.getActualTypeArguments()[0]);
+                } catch (Exception e) {
+                    // not generic/parameterized
+                }
             }
             propertyDisplay.setLabel(displayLabel + ": ");
             propertyDisplay.labelPrefWidthProperty().bindBidirectional(labelPrefWidth);
             try {
-                propertyDisplay.setValue((T) getters.get(key).invoke(current.getValue()));
+                propertyDisplay.setValue(getters.get(key).invoke(v));
                 vbProperties.getChildren().add(propertyDisplay);
             } catch (IllegalAccessException | InvocationTargetException e) {
 //                Cannot get value
@@ -161,11 +179,11 @@ public class ObjExplorer<T> extends GridPane {
         if (onLoad != null) onLoad.run();
     }
 
-    public ObjectDisplay<T> getCurrent() {
+    public ObjectDisplay getCurrent() {
         return current;
     }
 
-    public void setCurrent(ObjectDisplay<T> current) {
+    public void setCurrent(ObjectDisplay current) {
         if (current != null) {
             if (current.getValue() == null) {
                 alert.show();
@@ -213,7 +231,7 @@ public class ObjExplorer<T> extends GridPane {
         return labelPrefWidth;
     }
 
-    public TableViewX<T> getTvChildren() {
+    public TableViewX getTvChildren() {
         return tvChildren;
     }
 

@@ -3,7 +3,7 @@ package io.github.quellatalo.fx.explr.propdisplay;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ValueDisplay<T> extends PropertyDisplay<T> {
+public class ValueDisplay extends PropertyDisplay {
     @FXML
     private Label lblValue;
 
@@ -13,7 +13,7 @@ public class ValueDisplay<T> extends PropertyDisplay<T> {
     }
 
     @Override
-    public void setValue(T value) {
+    public void setValue(Object value) {
         if (value != null)
             lblValue.setText(value.toString());
     }

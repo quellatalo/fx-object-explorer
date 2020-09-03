@@ -4,12 +4,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
-public class SimpleBrowser<T> extends Stage {
-    private ObjExplorer<T> objExplorer;
+public class SimpleBrowser extends Stage {
+    private ObjExplorer objExplorer;
 
-    public SimpleBrowser(T object) {
-        objExplorer = new ObjExplorer<>(object);
-        objExplorer.setRoot(object);
+    public SimpleBrowser(Object object, Class<?> type) {
+        objExplorer = new ObjExplorer(object, type);
         Scene scene = new Scene(objExplorer);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.F3) {
@@ -19,15 +18,11 @@ public class SimpleBrowser<T> extends Stage {
         setScene(scene);
     }
 
-    public T getObject() {
+    public Object getObject() {
         return objExplorer.getRoot();
     }
 
-    public void setObject(T object) {
-        objExplorer.setRoot(object);
-    }
-
-    public ObjExplorer<T> getObjExplorer() {
+    public ObjExplorer getObjExplorer() {
         return objExplorer;
     }
 }

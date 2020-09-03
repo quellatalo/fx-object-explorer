@@ -6,7 +6,7 @@
 
     <groupId>io.github.quellatalo.fx</groupId>
     <artifactId>object-explorer</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0.0</version>
 
     <name>object-explorer</name>
     <description>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>io.github.quellatalo.fx</groupId>
             <artifactId>table-view-x</artifactId>
-            <version>1.7.4.1</version>
+            <version>1.8.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>

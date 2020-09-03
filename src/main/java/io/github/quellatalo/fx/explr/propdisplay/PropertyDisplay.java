@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
-public abstract class PropertyDisplay<T> extends HBox {
+public abstract class PropertyDisplay extends HBox {
     private DoubleProperty labelPrefWidth;
     @FXML
     private Label lblName;
@@ -27,7 +27,7 @@ public abstract class PropertyDisplay<T> extends HBox {
         labelPrefWidth.bindBidirectional(lblName.prefWidthProperty());
     }
 
-    public abstract void setValue(T value);
+    public abstract void setValue(Object value);
 
     public double getLabelPrefWidth() {
         return labelPrefWidth.get();

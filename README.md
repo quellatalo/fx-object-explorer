@@ -7,7 +7,7 @@ A javafx control for browsing object structure and data
 <dependency>
     <groupId>io.github.quellatalo.fx</groupId>
     <artifactId>object-explorer</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0.0</version>
 </dependency>
 ```
 ### Sample Code
@@ -52,8 +52,9 @@ public class Test extends Application {
             yourClasses.add(new YourClass(i, "your name " + i, LocalDateTime.now().minusHours(i)));
         }
         // create the explorer
-        ObjExplorer<List<YourClass>> explorer = new ObjExplorer<>(yourClasses);
-        // or you can use default constructor and explorer.setRoot(yourClasses);
+        ObjExplorer explorer = new ObjExplorer(yourClasses);
+        // If the object you want to explore is an Array/collection, you can also set prefered display type:
+        // ObjExplorer explorer = new ObjExplorer(yourClasses, YourClass.class);
         
         // add to scene and stage
         primaryStage.setScene(new Scene(explorer));

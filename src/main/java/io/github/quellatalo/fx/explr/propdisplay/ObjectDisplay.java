@@ -7,11 +7,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class ObjectDisplay<T> extends PropertyDisplay<T> {
+public class ObjectDisplay extends PropertyDisplay {
     @FXML
     private Hyperlink hplValue;
-    private T value;
-    private Consumer<ObjectDisplay<T>> actionConsumer;
+    private Object value;
+    private Class<?> typeArgument;
+    private Consumer<ObjectDisplay> actionConsumer;
 
     public ObjectDisplay() {
         hplValue = new Hyperlink();
@@ -28,12 +29,12 @@ public class ObjectDisplay<T> extends PropertyDisplay<T> {
         hplValue.setText(text);
     }
 
-    public T getValue() {
+    public Object getValue() {
         return value;
     }
 
     @Override
-    public void setValue(T value) {
+    public void setValue(Object value) {
         this.value = value;
         if (value == null) {
             hplValue.setText("NULL");
@@ -42,11 +43,19 @@ public class ObjectDisplay<T> extends PropertyDisplay<T> {
         }
     }
 
-    public Consumer<ObjectDisplay<T>> getActionConsumer() {
+    public Class<?> getTypeArgument() {
+        return typeArgument;
+    }
+
+    public void setTypeArgument(Class<?> typeArgument) {
+        this.typeArgument = typeArgument;
+    }
+
+    public Consumer<ObjectDisplay> getActionConsumer() {
         return actionConsumer;
     }
 
-    public void setActionConsumer(Consumer<ObjectDisplay<T>> actionConsumer) {
+    public void setActionConsumer(Consumer<ObjectDisplay> actionConsumer) {
         this.actionConsumer = actionConsumer;
     }
 }
